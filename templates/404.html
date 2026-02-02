@@ -1,0 +1,36 @@
+<!--
+404 ERROR PAGE
+==============
+This page is shown when users visit a URL that doesn't exist.
+Having a custom 404 page provides a better user experience!
+-->
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="text-center py-5">
+    <h1 class="display-1">404</h1>
+    <h2 class="mb-4">Page Not Found 🔍</h2>
+    <p class="lead text-muted mb-4">
+        Oops! The page you're looking for doesn't exist.
+    </p>
+    <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg">
+        ← Back to Home
+    </a>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-8 offset-md-2">
+        <div class="alert alert-info">
+            <h5>🧠 Error Handling in Flask</h5>
+            <p class="mb-0">
+                This custom 404 page is defined in <code>app.py</code> using the
+                <code>@app.errorhandler(404)</code> decorator. You can create
+                custom error pages for different HTTP status codes!
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

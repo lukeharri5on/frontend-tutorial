@@ -1,0 +1,52 @@
+# .dockerignore
+# ==============
+# Files to exclude when building Docker images
+# Similar to .gitignore, but for Docker builds
+# This makes your Docker image smaller and builds faster
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation (not needed in production)
+*.md
+!README.md
+
+# Environment files (secrets should be set in Cloud Run)
+.env
+.env.*
+
+# Tests
+tests/
+test_*.py
+*_test.py
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Mac
+.DS_Store
+
+# Deployment configs for other platforms
+Procfile
+railway.json
+render.yaml

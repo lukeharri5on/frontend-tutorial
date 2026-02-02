@@ -1,0 +1,133 @@
+<!--
+ABOUT PAGE TEMPLATE
+===================
+This page demonstrates how to pass data from Flask (Python) to HTML templates
+and loop through that data to display it dynamically.
+-->
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">About This Project 📖</h1>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">What You're Learning</h5>
+                <p class="card-text">
+                    This tutorial teaches the fundamentals of web development for data engineers
+                    who already know Python. You're learning how to:
+                </p>
+                <ul>
+                    <li>Set up a Flask web server</li>
+                    <li>Create routes and handle HTTP requests</li>
+                    <li>Render HTML templates with dynamic data</li>
+                    <li>Serve static files (CSS, JavaScript)</li>
+                    <li>Build APIs that return JSON data</li>
+                    <li>Create interactive data dashboards</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Demonstrating Template Variables and Loops -->
+        <h2 class="mb-3">Our Team 👥</h2>
+        <p class="text-muted mb-4">
+            This section demonstrates how Flask passes data to templates.
+            Check out <code>app.py</code> - the <code>about()</code> function
+            passes a <code>team</code> list to this template!
+        </p>
+
+        <div class="row g-3 mb-5">
+            <!--
+            JINJA2 FOR LOOP: Loop through the 'team' list passed from Flask
+            This is Python-like syntax that runs in the template
+            -->
+            {% for member in team %}
+            <div class="col-md-4">
+                <div class="card team-card">
+                    <div class="card-body text-center">
+                        <!-- Dynamic emoji based on role -->
+                        <div class="member-icon">
+                            {% if 'Data' in member.role %}
+                                📊
+                            {% elif 'ML' in member.role %}
+                                🤖
+                            {% else %}
+                                📈
+                            {% endif %}
+                        </div>
+                        <!-- Display data from Python dictionary -->
+                        <h5 class="card-title">{{ member.name }}</h5>
+                        <p class="card-text text-muted">{{ member.role }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Template Syntax Explanation -->
+        <div class="alert alert-info">
+            <h5>🔎 Template Syntax Explained</h5>
+            <p>Notice the special syntax in this HTML file:</p>
+            <ul class="mb-0">
+                <li><code>{{ "{%" }} for item in list %}</code> - Loop through data (like Python's for loop)</li>
+                <li><code>{{ "{{" }} variable }}</code> - Display a variable's value</li>
+                <li><code>{{ "{%" }} if condition %}</code> - Conditional logic (like Python's if statement)</li>
+                <li><code>{{ "{%" }} extends "base.html" %}</code> - Inherit from another template</li>
+            </ul>
+            <p class="mt-2 mb-0">
+                This is <strong>Jinja2</strong> template syntax. It lets you write Python-like
+                code in your HTML to make it dynamic!
+            </p>
+        </div>
+
+        <!-- Project Structure -->
+        <h2 class="mb-3 mt-5">Project Structure 📁</h2>
+        <p>Here's how a Flask project is typically organized:</p>
+
+        <pre class="code-example">frontend-tutorial/
+├── app.py                  ← Main Flask application (routes & logic)
+├── requirements.txt        ← Python dependencies
+├── README.md              ← Project documentation
+├── static/                ← Static files (CSS, JS, images)
+│   ├── css/
+│   │   └── style.css     ← Custom styles
+│   └── js/
+│       └── main.js       ← Custom JavaScript
+└── templates/             ← HTML templates
+    ├── base.html          ← Base template (inherited by others)
+    ├── index.html         ← Home page
+    ├── about.html         ← This page!
+    └── dashboard.html     ← Data dashboard</pre>
+
+        <!-- Why This Matters for Data Engineers -->
+        <div class="card bg-light mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Why This Matters for Data Engineers 🎯</h5>
+                <p class="card-text">
+                    As a data engineer, you can use these skills to:
+                </p>
+                <ul class="mb-0">
+                    <li><strong>Build dashboards</strong> to visualize pipeline metrics and data quality</li>
+                    <li><strong>Create APIs</strong> to serve ML model predictions or analytics results</li>
+                    <li><strong>Develop tools</strong> for your team to interact with data systems</li>
+                    <li><strong>Integrate with data tools</strong> like pandas, plotly, and databases</li>
+                    <li><strong>Prototype quickly</strong> without needing a separate frontend team</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="text-center mt-5 p-4 bg-primary text-white rounded">
+            <h3>Ready to see data in action?</h3>
+            <p class="mb-3">Check out the dashboard to see how Flask can display dynamic data!</p>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-light btn-lg">
+                Go to Dashboard →
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
