@@ -1,0 +1,36 @@
+# Flask Tutorial Requirements
+# ==========================
+# This file lists all Python packages needed for this project.
+# Install them with: pip install -r requirements.txt
+
+# Core Framework
+Flask==3.0.0
+# Flask is the web framework that runs your application
+
+# Production Server
+gunicorn==21.2.0
+# Gunicorn is a production WSGI server (replaces Flask's dev server)
+
+# Environment Variables
+python-dotenv==1.0.0
+# For managing environment variables securely
+
+# Optional but useful packages for data engineers:
+# Uncomment these if you want to add data capabilities
+
+# pandas==2.1.4
+# For data manipulation and analysis
+
+# plotly==5.18.0
+# For interactive data visualizations
+
+# numpy==1.26.2
+# For numerical operations
+
+# python-dotenv is now listed above in Production Server section
+
+# SQLAlchemy==2.0.23
+# For database operations (SQL made easy in Python)
+
+# requests==2.31.0
+# For making HTTP requests to external APIs

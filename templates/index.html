@@ -1,0 +1,165 @@
+<!--
+HOME PAGE TEMPLATE
+==================
+This template "extends" base.html, meaning it inherits all the structure
+(navbar, footer, etc.) and only needs to define the unique content.
+-->
+
+{% extends "base.html" %}
+
+<!--
+This block overrides the 'content' block from base.html
+Everything inside this block will be inserted where the content block is in base.html
+-->
+{% block content %}
+
+<!-- Hero Section: A large, attention-grabbing banner -->
+<div class="hero-section">
+    <div class="text-center p-5 mb-4 bg-primary text-white rounded">
+        <h1 class="display-4">Welcome to Flask! 🚀</h1>
+        <p class="lead">
+            A hands-on tutorial for data engineers learning web development with Python
+        </p>
+        <hr class="my-4">
+        <p>
+            Explore the different pages to learn about Flask routes, templates, and APIs!
+        </p>
+        <a class="btn btn-light btn-lg" href="{{ url_for('dashboard') }}" role="button">
+            View Dashboard →
+        </a>
+    </div>
+</div>
+
+<!-- Information Cards Section -->
+<div class="row g-4 mb-5">
+    <!-- Card 1: What is Flask? -->
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">🐍 What is Flask?</h5>
+                <p class="card-text">
+                    Flask is a lightweight Python web framework. It's perfect for building
+                    APIs, dashboards, and data applications. Since you know Python,
+                    you already have the foundation!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 2: Frontend vs Backend -->
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">🎨 Frontend vs Backend</h5>
+                <p class="card-text">
+                    <strong>Backend (Flask/Python):</strong> Handles data, logic, and server operations.
+                    <br><br>
+                    <strong>Frontend (HTML/CSS/JS):</strong> What users see and interact with in the browser.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 3: For Data Engineers -->
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">📊 For Data Engineers</h5>
+                <p class="card-text">
+                    Use Flask to build data dashboards, APIs for ML models, or web interfaces
+                    for analytics tools. It integrates seamlessly with pandas, numpy,
+                    and other data libraries!
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Key Concepts Section -->
+<div class="row mb-5">
+    <div class="col-12">
+        <h2 class="mb-4">Key Concepts in This Tutorial 📚</h2>
+
+        <div class="concept-box">
+            <h5>1. Routes & Views</h5>
+            <p>
+                Routes map URLs to Python functions. Check out
+                <code>app.py</code> to see how <code>@app.route('/')</code>
+                makes this page work!
+            </p>
+            <pre class="code-example">@app.route('/')
+def home():
+    return render_template('index.html')</pre>
+        </div>
+
+        <div class="concept-box">
+            <h5>2. Templates</h5>
+            <p>
+                Templates are HTML files with placeholders for dynamic content.
+                This page is <code>templates/index.html</code> and extends
+                <code>templates/base.html</code>.
+            </p>
+        </div>
+
+        <div class="concept-box">
+            <h5>3. Static Files</h5>
+            <p>
+                CSS, JavaScript, and images go in the <code>static/</code> folder.
+                Flask serves these files automatically.
+            </p>
+        </div>
+
+        <div class="concept-box">
+            <h5>4. APIs</h5>
+            <p>
+                Flask can return JSON data for APIs. Try visiting
+                <a href="{{ url_for('get_data') }}" target="_blank">/api/data</a>
+                to see an example!
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Interactive Demo -->
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-info">
+            <h5>🔍 Try This!</h5>
+            <p class="mb-2">Open your browser's developer console (F12 or Right-click → Inspect)
+                and click this button to see Flask's API in action:</p>
+            <button id="fetchDataBtn" class="btn btn-primary">Fetch Data from API</button>
+            <div id="apiResult" class="mt-3"></div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+<!-- Add page-specific JavaScript -->
+{% block extra_js %}
+<script>
+    // This JavaScript runs only on this page
+    // It demonstrates how to call your Flask API from the frontend
+
+    document.getElementById('fetchDataBtn').addEventListener('click', function() {
+        // Fetch data from our Flask API endpoint
+        fetch('/api/data')
+            .then(response => response.json())  // Parse JSON response
+            .then(data => {
+                // Display the data in a nice format
+                document.getElementById('apiResult').innerHTML = `
+                    <div class="alert alert-success">
+                        <strong>API Response:</strong>
+                        <pre class="mt-2">${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('apiResult').innerHTML = `
+                    <div class="alert alert-danger">Error fetching data!</div>
+                `;
+            });
+    });
+</script>
+{% endblock %}

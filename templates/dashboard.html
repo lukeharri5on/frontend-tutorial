@@ -1,0 +1,268 @@
+<!--
+DASHBOARD TEMPLATE
+==================
+This page demonstrates how to create an interactive data dashboard -
+perfect for data engineers! It shows how to:
+1. Fetch data from a Flask API
+2. Display that data in charts using Chart.js
+3. Update the UI dynamically with JavaScript
+-->
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Data Dashboard 📊</h1>
+        <p class="lead text-muted">
+            This page demonstrates how to build interactive data visualizations
+            by combining Flask APIs with JavaScript charting libraries.
+        </p>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card text-center stat-card">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Total Records</h6>
+                <h2 class="card-title" id="stat-records">-</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center stat-card">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Average</h6>
+                <h2 class="card-title" id="stat-average">-</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center stat-card">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Maximum</h6>
+                <h2 class="card-title" id="stat-max">-</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center stat-card">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Last Updated</h6>
+                <h2 class="card-title" id="stat-time">-</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Monthly Trends</h5>
+                <button id="refreshBtn" class="btn btn-sm btn-primary">
+                    🔄 Refresh Data
+                </button>
+            </div>
+            <div class="card-body">
+                <!-- Canvas element for Chart.js -->
+                <canvas id="dataChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works Section -->
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-info">
+            <h5>🧠 How This Dashboard Works</h5>
+            <ol class="mb-0">
+                <li>When the page loads, JavaScript calls <code>/api/data</code> (a Flask route)</li>
+                <li>Flask returns JSON data (check <code>app.py</code> → <code>get_data()</code> function)</li>
+                <li>JavaScript receives the data and updates the chart using Chart.js</li>
+                <li>The statistics cards are calculated and displayed dynamically</li>
+            </ol>
+            <p class="mt-3 mb-0">
+                <strong>For data engineers:</strong> In a real application, the Flask API would
+                query your data warehouse, run analytics, or call ML models. The frontend
+                just displays whatever data you return!
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Technical Details -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Frontend Stack</h5>
+                <ul class="mb-0">
+                    <li><strong>HTML:</strong> Page structure</li>
+                    <li><strong>CSS/Bootstrap:</strong> Styling & layout</li>
+                    <li><strong>JavaScript:</strong> Interactivity & data fetching</li>
+                    <li><strong>Chart.js:</strong> Data visualization</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Backend Stack</h5>
+                <ul class="mb-0">
+                    <li><strong>Python:</strong> Programming language</li>
+                    <li><strong>Flask:</strong> Web framework</li>
+                    <li><strong>JSON:</strong> Data format for APIs</li>
+                    <li><strong>Can integrate:</strong> pandas, numpy, scikit-learn, etc.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Code Example -->
+<div class="row mt-4">
+    <div class="col-12">
+        <h5>Example: Integrating with pandas</h5>
+        <pre class="code-example"># In app.py, you could do:
+import pandas as pd
+
+@app.route('/api/analytics')
+def get_analytics():
+    # Read data from CSV, database, or data warehouse
+    df = pd.read_csv('data.csv')
+
+    # Perform analysis
+    summary = {
+        'mean': df['value'].mean(),
+        'median': df['value'].median(),
+        'std': df['value'].std(),
+        'records': len(df)
+    }
+
+    # Return as JSON
+    return jsonify(summary)</pre>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js library for creating charts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<script>
+    // JavaScript code for this dashboard
+    // This runs when the page loads
+
+    let myChart = null;  // Store chart instance globally
+
+    /**
+     * Fetch data from Flask API and update the dashboard
+     */
+    function updateDashboard() {
+        console.log('Fetching data from Flask API...');
+
+        // Call the Flask API endpoint
+        fetch('/api/data')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Received data:', data);
+
+                // Update statistics cards
+                updateStats(data);
+
+                // Update or create the chart
+                updateChart(data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                alert('Error loading data! Check console for details.');
+            });
+    }
+
+    /**
+     * Update the statistics cards
+     */
+    function updateStats(data) {
+        const values = data.values;
+
+        // Calculate statistics
+        const total = values.length;
+        const average = (values.reduce((a, b) => a + b, 0) / total).toFixed(1);
+        const maximum = Math.max(...values);
+
+        // Format timestamp
+        const time = new Date(data.timestamp).toLocaleTimeString();
+
+        // Update the DOM
+        document.getElementById('stat-records').textContent = total;
+        document.getElementById('stat-average').textContent = average;
+        document.getElementById('stat-max').textContent = maximum;
+        document.getElementById('stat-time').textContent = time;
+    }
+
+    /**
+     * Create or update the chart
+     */
+    function updateChart(data) {
+        const ctx = document.getElementById('dataChart').getContext('2d');
+
+        // If chart exists, destroy it first
+        if (myChart) {
+            myChart.destroy();
+        }
+
+        // Create new chart
+        myChart = new Chart(ctx, {
+            type: 'line',  // Can also be 'bar', 'pie', 'doughnut', etc.
+            data: {
+                labels: data.labels,  // X-axis labels
+                datasets: [{
+                    label: 'Monthly Values',
+                    data: data.values,  // Y-axis values
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    tension: 0.4  // Smooth line
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    title: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Event listener for refresh button
+    document.getElementById('refreshBtn').addEventListener('click', function() {
+        console.log('Refresh button clicked');
+        updateDashboard();
+    });
+
+    // Load data when page first loads
+    window.addEventListener('load', function() {
+        console.log('Dashboard loaded, fetching initial data...');
+        updateDashboard();
+    });
+</script>
+{% endblock %}

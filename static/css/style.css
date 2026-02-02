@@ -1,0 +1,317 @@
+/*
+CUSTOM STYLESHEET
+=================
+CSS (Cascading Style Sheets) controls how your HTML looks.
+We're using Bootstrap for most styling, but this file adds custom styles.
+
+CSS Basics:
+- selector { property: value; }
+- Classes start with a dot: .my-class
+- IDs start with a hash: #my-id
+- You can target HTML elements directly: body, h1, p, etc.
+*/
+
+/* ============================================================================
+   GLOBAL STYLES
+   ============================================================================ */
+
+/* Root variables: Define colors and values once, reuse everywhere */
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --light-bg: #f8f9fa;
+    --dark-bg: #212529;
+}
+
+/* Body: Base styles for the entire page */
+body {
+    /* Use system fonts for better performance and native look */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;  /* Minimum height = full viewport */
+    display: flex;
+    flex-direction: column;  /* Stack items vertically */
+}
+
+/* Main content area: Push footer to bottom */
+main {
+    flex: 1;  /* Take up remaining space */
+}
+
+/* Footer: Stick to bottom */
+.footer {
+    margin-top: auto;  /* Push to bottom with flexbox */
+}
+
+
+/* ============================================================================
+   NAVIGATION BAR
+   ============================================================================ */
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+/* Hover effect for navigation links */
+.navbar-nav .nav-link {
+    transition: color 0.3s ease;  /* Smooth color transition */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #fff !important;
+    opacity: 0.8;
+}
+
+
+/* ============================================================================
+   HOME PAGE
+   ============================================================================ */
+
+/* Hero section: Large banner at top of home page */
+.hero-section {
+    animation: fadeIn 1s ease-in;  /* Fade in on page load */
+}
+
+/* Cards: Ensure all cards in a row have same height */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+/* Hover effect: Lift card slightly when user hovers */
+.card:hover {
+    transform: translateY(-5px);  /* Move up 5 pixels */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  /* Add shadow */
+}
+
+/* Concept boxes: Styled sections for teaching concepts */
+.concept-box {
+    background-color: var(--light-bg);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--primary-color);
+}
+
+.concept-box h5 {
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+}
+
+/* Code examples: Monospace font, light background */
+.code-example, pre {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    overflow-x: auto;  /* Horizontal scroll if code is too wide */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Inline code: Subtle background for code within text */
+code {
+    background-color: #f4f4f4;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-family: 'Courier New', Courier, monospace;
+    color: #d63384;
+    font-size: 0.875em;
+}
+
+
+/* ============================================================================
+   ABOUT PAGE
+   ============================================================================ */
+
+/* Team member cards */
+.team-card {
+    transition: transform 0.3s ease;
+}
+
+.team-card:hover {
+    transform: scale(1.05);  /* Grow 5% on hover */
+}
+
+.member-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+
+/* ============================================================================
+   DASHBOARD PAGE
+   ============================================================================ */
+
+/* Statistics cards: Highlight important metrics */
+.stat-card {
+    border-left: 4px solid var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    border-left-color: var(--success-color);
+    transform: translateX(5px);  /* Slide right on hover */
+}
+
+.stat-card h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+/* Chart container: Ensure proper sizing */
+#dataChart {
+    max-height: 400px;
+}
+
+
+/* ============================================================================
+   UTILITY CLASSES
+   ============================================================================ */
+
+/* Add spacing utilities */
+.mt-6 { margin-top: 4rem; }
+.mb-6 { margin-bottom: 4rem; }
+
+/* Smooth scrolling for anchor links */
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+/* Fade in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply fade-in to all main content */
+main {
+    animation: fadeIn 0.5s ease-in;
+}
+
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+/*
+Media queries: Apply different styles based on screen size
+This makes your site work well on mobile, tablet, and desktop
+*/
+
+/* Tablets and smaller (max-width: 768px) */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2rem;  /* Smaller heading on mobile */
+    }
+
+    .stat-card h2 {
+        font-size: 2rem;  /* Smaller stats on mobile */
+    }
+
+    .code-example, pre {
+        font-size: 0.75rem;  /* Smaller code on mobile */
+    }
+}
+
+/* Mobile phones (max-width: 576px) */
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .concept-box {
+        padding: 1rem;
+    }
+}
+
+
+/* ============================================================================
+   PRINT STYLES (Optional)
+   ============================================================================ */
+
+/*
+These styles apply when users print the page
+They hide navigation and adjust colors for better printing
+*/
+@media print {
+    .navbar,
+    .footer,
+    .btn {
+        display: none;  /* Hide navigation when printing */
+    }
+
+    body {
+        font-size: 12pt;
+        color: black;
+        background: white;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        box-shadow: none;
+    }
+}
+
+
+/* ============================================================================
+   CUSTOM SCROLLBAR (Optional - for modern browsers)
+   ============================================================================ */
+
+/* Custom scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+
+/* ============================================================================
+   ACCESSIBILITY
+   ============================================================================ */
+
+/*
+Focus styles: Important for keyboard navigation
+Never remove focus outlines completely!
+*/
+a:focus,
+button:focus,
+input:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Improve readability for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
